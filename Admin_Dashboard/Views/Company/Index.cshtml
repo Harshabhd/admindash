@@ -1,0 +1,60 @@
+﻿@model List<Admin_Dashboard.Models.CompanyUsers>
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor admin;
+
+@{
+    var user = @admin.HttpContext.Session.GetString("SuperAdmin");
+
+}
+<script>
+    $(document).ready(function (){
+        $('#UserName').keyup(function(){
+
+            var username=$(this).val();
+
+            if(username.length>3){
+                $.ajax({
+                    url: '/Company/GetUserName',
+                    type:'GET',
+                    data:{name:username},
+                    success:function(response){
+                        if(response==false){
+                            $('#statusName').html("<span style='color:green,'>✔ Available</span>");
+                        }else{
+                            $('#statusName').html("<span style='color:red,'>✘ Taken</span>");
+                        }
+                    },
+                    error:function(){
+                        $('#statusName').html("<span style='color:red,'>Error Loading ...</span>");
+                    }
+                });
+            }else{
+                $('#statusName').html("");
+            }
+        });
+    });
+</script>
+
+   
+    @if (user == "Super Admin")
+    {
+        <h1>Hi Admin</h1>
+        <input type="text" id="UserName"   />
+        <span id="statusName"></span>
+    <a asp-action="Logout">Logout</a>
+        
+      
+    }
+    else
+    {
+        <h1>Welcome Token</h1>
+    }
+
+
+  
+
+
+
+
+
+

@@ -1,0 +1,151 @@
+﻿@model Admin_Dashboard.Models.CompanyUsers
+
+@{
+    ViewData["Title"] = "CreateUser";
+
+}
+
+@*<script>
+    $(document).ready(function(){
+
+        $('#UserNAme').keyup(function () {
+            debugger
+            var username = $(this).val();
+
+            if (username.length > 3) {
+                $.ajax({
+                    url: '/Company/GetUserName',
+                    type: 'GET',
+                    data: { name: username },
+                    success: function (response) {
+                        if (response == false) {
+                            $('#StatusName').html("<span style='color:green,'>✔ Available</span>");
+                        } else {
+                            $('#StatusName').html("<span style='color:red,'>✘ Taken</span>");
+                        }
+                    },
+                    error: function () {
+                        $('#StatusName').html("<span style='color:red,'>Error Loading...</span>");
+                    },
+                });
+            } else {
+                $('#StatusName').html("");
+            }
+        });
+
+
+
+        $('#registerBtn').click(function(){
+            validation();
+        });
+
+
+       function validation(){
+            if (!$('#registerForm').valid()){
+                return false;
+            }
+        };
+    });
+    
+</script>*@
+
+<h1>CreateUser</h1>
+
+<h4>CompanyUsers</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateUser" id="registerForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" id="UserNAme" class="form-control" /><span id="StatusName"></span>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AdminAccess" /> @Html.DisplayNameFor(model => model.AdminAccess)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="registerBtn" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(document).ready(function(){
+        $('#UserNAme').keydown(function(){
+            var username=$(this).val();
+
+
+            if(username.length>3){
+                $.ajax({
+                    url: '/Company/GetUserName',
+                    type:'GET',
+                    data:{name:username},
+                    success:function (res){
+                        if(res==false){
+                            $('#StatusName').html("<span style='color:green,'>Available...</span>");
+                        }else{
+                            $('#StatusName').html("<span style='color:red,'>Taken</span>");
+                        }
+                        
+                    },
+                    error:function(){
+                        $('#StatusName').html("<span style='color:red,'>Error Loading...</span>");
+                    }
+                })
+            }else{
+                $('#StatusName').html("");
+            }
+        });
+
+        $('#registerBtn').click(function(){
+            Validation();
+        });
+
+
+        function Validation(){
+            if (!$('#registerForm').valid()){
+                return false;
+            }
+        };
+
+        
+
+    });
+</script>
